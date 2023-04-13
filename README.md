@@ -1,6 +1,6 @@
 # Ego Network Structure on Twitter: a graph-based approach to detect viral diffusion of information amongst community
 
-## Group D: Federico Baldoni, Giovanni Raimondo Quaratino, Nicolò Rosso
+## Group D: Federico Jacopo Baldoni, Giovanni Raimondo Quaratino, Nicolò Rosso
 
 Abstract: 
 
