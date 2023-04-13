@@ -48,4 +48,4 @@ In this first representation, thanks to Pyvis, we analyzed the ego-network struc
 
 Moreover, to detect the degree of polarization among communities, we computed the level of agreements between texts.
 
-The next steps of the proposed research will be as follows. At first, to better delineate the level of polarization and how some users may contribute to the spread of such phenomena. Second, to highlight the role of ego-network in the so-called information dissemination structure. 
+The next steps of the proposed research will be as follows. At first, to better delineate the level of polarization and how some users may contribute to the spread of such phenomena. Second, to highlight the role of ego-network in the so-called information dissemination structure.
