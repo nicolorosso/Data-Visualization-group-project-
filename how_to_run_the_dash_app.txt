@@ -1,6 +1,6 @@
 In order to correctly run the dash app you should download from GitHub "edge_betweenness_dataframes.zip", "tweet_datavis.zip" (and unzip them) and the "dash_app" folder.
 Once you did that, open the dash_app folder and run "run.py". Now everything should run smoothly.
 
-It seems that sometimes dash gives problems with the paths of the pages python files in the "pages" folder. So, if that is the case, you should simply replace the path with your own personal path.
+It seems that sometimes dash gives problems with the paths of the pages python files in the "pages" folder. So, if that is the case, you should simply replace the path of "tweet_datavis.csv" and "edge_betweenness_dataframes.json" with your own personal paths.
 
 We didn't specify any port, so by default the app should be run on the local host port 8050. If port 8050 is not available, in the "run.py", just change "app.run_server(debug=True)" to something like "app.run_server(debug=True, port='8080')" or any other available port number. 
