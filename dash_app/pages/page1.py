@@ -1,85 +1,59 @@
+import dash
+import dash_bootstrap_components as dbc
 import dash_html_components as html
-import dash_core_components as dcc
 from dash.dependencies import Input, Output
-from app import app
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
-import pandas as pd
+import dash_core_components as dcc
+from pages.navbar import header_menu, CONTENT_STYLE
 
+dash.register_page(__name__, path='/', name='Homepage')
 
-# Assuming you have a DataFrame named df
-# For demonstration purposes, I'm using a sample DataFrame
-df = pd.read_csv("tweet_datavis.csv")
-# Extract the username and the id name from strquoted
-df[['quoted_username', 'quoted_tweet_id']] = df['quoted_tweet'].str.extract(r'https:\/\/twitter\.com\/(\w+)\/status\/(\d+)')
-# Extract the username from the mentions
-df['mentioned_users'] = df['mentioned_users'].str.extract(r'https://twitter.com/(\w+)')
-
-def extract_insights(df):
-    # Number of tweets per user (the most active one)
-    most_active_users = df['username'].value_counts().head(10)
-
-    # Users with more mentions (more influential)
-    mentioned_users = df['mentioned_users'].explode().dropna()
-    most_mentioned_users = mentioned_users.value_counts().head(10)
-
-    return most_active_users, most_mentioned_users
-
-@app.callback(
-    [Output(component_id='users_barplot', component_property='figure')],
-    [Input(component_id='dummy-input', component_property='value')]
-)
-
-def update_output(dummy_value):
-    # Top 5 Keywords Bar Plot
-    users_barplot = insights_plot
-    return users_barplot
-
-def create_insights_plot(most_active_users, most_mentioned_users):
-    fig = make_subplots(rows=1, cols=2, subplot_titles=("Most Active Users", "Most Mentioned Users"))
-
-    fig.add_trace(
-        go.Bar(x=most_active_users.index, y=most_active_users.values),
-        row=1, col=1
-    )
-
-    fig.add_trace(
-        go.Bar(x=most_mentioned_users.index, y=most_mentioned_users.values),
-        row=1, col=2
-    )
-
-    fig.update_layout(
-        showlegend=False,
-        title="Twitter Insights",
-    )
-
-    return fig
-
-
-most_active_users, most_mentioned_users = extract_insights(df)
-insights_plot = create_insights_plot(most_active_users, most_mentioned_users)
-
-layout = html.Div([
-    html.Br(),
-    html.Br(),
-    html.Br(),
-    html.H1('The 5th of January: Dawn of a Democracy?', style={'textAlign': 'center'}),
-    html.Div([
-        html.Div([
-            html.H3(),
-            html.Img(src='assets/twitter_network.png', height="80%", width="80%", style={'textAlign': 'center'}), #app.get_asset_url('twitter_network.png')
-            html.P("This is a graph representing the Community of Twitter around the #trump."),
-        ], style={'width': '80%', 'display': 'inline-block','textAlign': 'center'}),
-
-    ], style={'textAlign':'center'}),
-    html.Br(),
-    html.Div([
-        html.H3('Data Insights'),
-        html.P("This data was scraped from Twitter in the period between October 2020 and January 2021."),
-        html.P("The following insights were extracted from the data:"),
-        dcc.Graph(figure=insights_plot),
+layout = dbc.Container([
+    dbc.Row([
+        dbc.Col([
+            html.H1("TwitterPolitics: A Journey into Digital Discourse", style={"textAlign": "center", "margin-top": "2rem", 'font-weight': 'bold', 'color': 'black'}),
+            html.H3(
+                """
+                From lively debates to the rise of polarizing opinions, Twitter has been the stage for political conversations. We invite you on an exploration to unearth the impact of keywords on these digital interactions and the intriguing patterns they reveal.
+                """,
+                className="lead",
+                style={"marginTop": "40px", "fontSize": "20px", "textAlign": "center"},
+            ),
+            html.Br(),
+            html.H2('The Stages of Our Investigation', style={'textAlign': 'center', 'font-weight': 'bold', 'color': 'black'}),
+            html.Br(),
+        ], width=12)
     ]),
-    html.Br(),
-    dcc.Link('Go back to the main page', href='/'),
-    html.Div([dcc.Input(id='dummy-input', type='hidden', value='dummy')]),
-], style={'textAlign':'center'})
+
+    dbc.Row([
+        dbc.Col([
+            html.Img(src=r'assets/twitter_funnel copia.png', alt='image', height="100%", width="100%")
+        ], width=6),
+        dbc.Col([
+            html.Br(),
+            html.H4("""Our focus converges on three distinct yet interconnected levels:"""),
+            html.Br(),
+            html.H5("""1. Twitter Network:"""),
+            html.P(
+                """Our journey starts with a broad overview of the Twitter network, encapsulating a pivotal four-month period - from the onset of the presidential debates in October 2020 to the day following the Capitol Hill riot on January 6th, 2021."""),
+            html.P(
+                "This initial phase offers a wealth of insights about the general debate on Twitter, including key metrics like the most active and mentioned users."),
+            html.Br(),
+            html.H5("""2. Inter-Communities:"""),
+            html.P(
+                """As we delve deeper, we turn our attention to the interplay between communities. Leveraging the Greedy Modularity Community algorithm, we've identified user communities based on the most common keywords."""),
+            html.P(
+                "Our primary objective here is to gauge the polarization level of the political discourse across these communities."),
+            html.Br(),
+            html.H5("""3. Intra-Communities:"""),
+            html.P(
+                """Finally, we zoom in to examine the intra-community dynamics. Is there a pattern of homophily influencing members within the same community? Do similar communities exhibit similar levels of agreement?"""),
+        ], width=6)
+    ], style={'marginTop': '30px', 'marginBottom': '30px'}),
+
+    dbc.Row([
+        dbc.Col([
+            html.H4(children="Ready to dive into our findings? Proceed to the next sections!",
+                    style={'textAlign': 'center', 'font-weight': 'bold', 'color': 'black'})], width={'size': 12})
+    ], style={'marginTop': '30px', 'marginBottom': '40px'}),
+
+], style= CONTENT_STYLE, fluid=True)
