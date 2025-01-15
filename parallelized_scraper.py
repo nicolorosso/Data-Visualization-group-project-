@@ -1,4 +1,4 @@
-#define a function to parallelize your scraping. Essential if you are running on jupyter notebook
+
 import snscrape.modules.twitter as sntwitter
 def scrape_tweets_for_user(topic,since, until):
     tweets_list1 = []
